@@ -3,7 +3,7 @@ import * as Auth from "otpauth";
 const secretInput = document.getElementById("secret") as HTMLInputElement;
 const tokenText = document.getElementById("token") as HTMLParagraphElement;
 
-secretInput.innerHTML = window.localStorage.getItem("secret") ?? "";
+secretInput.value = window.localStorage.getItem("secret") ?? "";
 
 const totp = new Auth.TOTP({
     algorithm: "SHA1",
@@ -14,7 +14,7 @@ const totp = new Auth.TOTP({
 function generateToken() {
     totp.secret = Auth.Secret.fromBase32(secretInput.value);
     tokenText.innerHTML = totp.generate();
-    window.localStorage.setItem("secret", tokenText.innerHTML);
+    window.localStorage.setItem("secret", secretInput.value);
 }
 
 setInterval(generateToken, 500);
